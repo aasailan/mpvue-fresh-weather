@@ -158,6 +158,7 @@ module.exports = {
     //   from: resolve('./src/app.json'),
     //   to: 'app.json'
     // }]),
+    // copy app.json 与 page.json
     new CopyWebpackPlugin([{
       from: '**/*.json',
       to: ''
