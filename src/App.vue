@@ -1,21 +1,18 @@
-<script lang="ts" src="./app.ts"></script>
-
+<script lang="ts" src="./app.ts">
+</script>
 <style>
-  .container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 200px 0;
-    box-sizing: border-box;
-  }
+page {
+  background-color: #F8F8F8;
+  font-size: 14px;
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
 
-  /* this rule will be remove */
-  * {
-    transition: width 2s;
-    -moz-transition: width 2s;
-    -webkit-transition: width 2s;
-    -o-transition: width 2s;
-  }
+
+/* this rule will be remove */
+* {
+  transition: width 2s;
+  -moz-transition: width 2s;
+  -webkit-transition: width 2s;
+  -o-transition: width 2s;
+}
 </style>

@@ -1,6 +1,6 @@
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
-const debug = require('debug')('log:Comp/CompB')
+const debug = require('debug')('log:Comp/CompB');
 
 // 必须使用装饰器的方式来指定component
 @Component({
@@ -9,22 +9,22 @@ const debug = require('debug')('log:Comp/CompB')
   // }
 })
 class CompB extends Vue {
-  @Prop({ default: '1' }) //注意用法！
+  @Prop({ default: '1' }) // 注意用法！
   text: string;
 
   ver: number = 2;
 
   onShow() {
-    debug('onShow')
+    debug('onShow');
   }
 
   onHide() {
-    debug('onHide')
+    debug('onHide');
   }
 
   mounted() { // vue hook
-    debug('mounted')
+    debug('mounted');
   }
 }
 
-export default CompB
+export default CompB;
