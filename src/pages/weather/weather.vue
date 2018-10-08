@@ -1,15 +1,14 @@
 <template>
   <div class="wrapper weather-page" :style="{ background: 'url(' + backgroundImage + ') center -178rpx / 100% no-repeat ' +  backgroundColor }">
     <div class="navigator">
-      <!-- <icon :type="'edit'"></icon> -->
+      <icon-a type="edit"></icon-a>
     </div>
     <div class="container" id="canvas-wrapper" :style="{paddingTop: paddingTop + 'px' }">
       <canvas canvas-id="effect" id="effect"></canvas>
       <div class="now">
         <!-- 所在地信息栏 -->
         <div class="location" @click="chooseLocation">
-          <!-- bindtap="chooseLocation" -->
-          <!-- <icon type="dingwei" /> -->
+          <icon-a type="dingwei"></icon-a>
           <span>{{ address }}</span>
         </div>
         <!-- 空气质量 -->
@@ -25,7 +24,7 @@
           </div>
           <div class="cur-weather">
             <div class="inline">
-              <!-- <icon type="{{ current.icon }}"></icon> -->
+              <icon-a :type="current.icon"></icon-a>
               <span>{{ current.weather }}</span>
             </div>
             <div class="inline today">
@@ -48,7 +47,7 @@
           <div class="bottom">
             <span>{{ today.weather }}</span>
             <!-- NOTE: 自定义组件：注意传参方式，需要在json文件中声明，icon本身会变成一个节点 -->
-            <!-- <icon type="{{ today.icon }}" class="logo"></icon> -->
+            <icon-a :type="today.icon"></icon-a>
           </div>
         </div>
         <div class="item">
@@ -58,7 +57,7 @@
           </div>
           <div class="bottom">
             <span>{{ tomorrow.weather }}</span>
-            <!-- <icon type="{{ tomorrow.icon }}" class="logo"></icon> -->
+            <icon-a :type="tomorrow.icon"></icon-a>
           </div>
         </div>
       </div>
@@ -76,7 +75,7 @@
             <div class="item" v-for="(item, index) in hourlyData" :key="index">
               <!-- TODO: 将text转为p，测试一下 -->
               <p class="time">{{ item.time }}</p>
-              <!-- <icon type="{{item.icon}}" class="icon"></icon> -->
+              <icon-a :type="item.icon"></icon-a>
               <p class="temp">{{item.temp}}°</p>
             </div>
           </div>
@@ -91,10 +90,10 @@
               <div class="date">{{ item.formatDate }}</div> <!-- {{ utils.formatDate(item.time) }} -->
               <div class="daytime">
                 <div class="wt">{{item.day}}</div>
-                <!-- <icon type="{{item.dayIcon}}" class="img"></icon> -->
+                <icon-a :type="item.dayIcon"></icon-a>
               </div>
               <div class="night">
-                <!-- <icon type="{{item.nightIcon}}" class="img"></icon> -->
+                <icon-a :type="item.nightIcon"></icon-a>
                 <div class="wt">{{item.night}}</div>
               </div>
               <div class="wind">{{ item.formatNightWind }}</div> <!-- {{ utils.wind(item.nightWind) }} -->
@@ -115,7 +114,7 @@
           <div class="item" v-for="(item, index) in lifeStyle" :key="index" 
             @click="indexDetail(item.name, item.detail)">
             <div class="title">
-              <!-- <icon type="{{item.icon}}"></icon> -->
+              <icon-a :type="item.icon"></icon-a>
               {{item.name}}
             </div>
             <div class="content">{{item.info}}</div>
@@ -127,6 +126,42 @@
 </template>
 <style lang="scss" scoped>
   @import "./weather.scss";
+</style>
+<style lang="scss">
+.two-days {
+  .item {
+    .icon {
+      float: right;
+      font-size: 44rpx;
+      height: 44rpx;
+      width: 44rpx;
+    }
+  }
+}
+.hourly {
+  .icon {
+    font-size: 48rpx;
+    margin: 20rpx auto 30rpx;
+  }
+}
+.week {
+  .week-weather {
+    .icon {
+      font-size: 38rpx;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}
+.life-style {
+  .title {
+    .icon {
+      font-size: 24rpx;
+      margin-right: 10rpx;
+      margin-top: -2rpx;
+    }
+  }
+}
 </style>
 <script lang="ts" src="./weather.ts">
 </script>

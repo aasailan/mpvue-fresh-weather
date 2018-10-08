@@ -145,7 +145,9 @@ module.exports = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          // NOTE: 小程序不支持外部的字体文件，需要将所有字体打包成base64编码
+          // 该工程使用了一个18k的字体文件，因此将limit调整了20k
+          limit: 20000,
           name: utils.assetsPath('fonts/[name].[ext]')
         }
       }

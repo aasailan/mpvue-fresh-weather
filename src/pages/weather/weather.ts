@@ -2,15 +2,20 @@
  * @Author: qiao 
  * @Date: 2018-10-06 15:55:57 
  * @Last Modified by: qiao
- * @Last Modified time: 2018-10-07 21:40:42
+ * @Last Modified time: 2018-10-08 15:09:29
  * 天气页面组件
  */
 
-import Vue from 'vue';
-import Component from 'vue-class-component';
+// import Vue from 'vue';
+// import Component from 'vue-class-component';
+import { Vue, Component } from 'vue-property-decorator';
 import { getWeather, getAir, getMood, geocoder } from '@/api/api';
 // import { Action } from 'vuex-class';
 import * as utils from './wxs';
+
+// icon的话
+import IconA from '@/components/icon/icon.vue';
+// import CompB from '@/components/compb.vue';
 
 interface IWeeklyData {
   day: string;
@@ -34,7 +39,13 @@ interface ILifeStyle {
   detail: string;
 }
 
-@Component({})
+@Component({
+  components: {
+    IconA
+    // CompB
+    // IconA: Icon
+  }
+})
 export default class WeatherComp extends Vue {
   // 页面数据
   statusBarHeight = 32;
@@ -320,11 +331,16 @@ export default class WeatherComp extends Vue {
     });
   }
 
-  // TODO: 貌似选择位置后，不会变，需要测试 手动选择地理位置
+  // TODO: 选择其他位置后，返回的经纬度不变，可能是wx.chooseLocation方法的bug
   chooseLocation() {
     wx.chooseLocation({
       success: (res) => {
+        console.log('chooseLocation: success');
         let { latitude, longitude } = res;
+        console.log(this.lat);
+        console.log(this.lon);
+        console.log(latitude);
+        console.log(longitude);
         if (latitude === this.lat && this.lon === longitude) {
           // 经纬度没变则直接更新天气
           this.getWeatherData();

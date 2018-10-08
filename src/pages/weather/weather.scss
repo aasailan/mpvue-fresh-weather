@@ -203,12 +203,7 @@ icon {
         line-height: 44rpx;
       }
     }
-    icon {
-      float: right;
-      font-size: 44rpx;
-      height: 44rpx;
-      width: 44rpx;
-    }
+    
   }
 }
 
@@ -244,10 +239,7 @@ icon {
     height: 28rpx;
     position: relative;
   }
-  icon {
-    font-size: 48rpx;
-    margin: 20rpx auto 30rpx;
-  }
+  
 }
 
 // week
@@ -289,11 +281,6 @@ icon {
       .night .wt {
         margin: 32rpx 0 30rpx;
       }
-      icon.img {
-        font-size: 38rpx;
-        display: block;
-        margin: 0 auto;
-      }
     }
   }
   .week-chart {
@@ -329,16 +316,14 @@ icon {
     margin-top: 20rpx;
   }
   .title {
-    icon {
-      font-size: 24rpx;
-      margin-right: 10rpx;
-      margin-top: -2rpx;
-    }
     color: #fff;
     opacity: 0.7;
     font-size: 24rpx;
     height: 24rpx;
     line-height: 24rpx;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 10rpx;
   }
 }
 
