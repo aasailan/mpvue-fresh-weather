@@ -2,7 +2,7 @@
  * @Author: qiao 
  * @Date: 2018-10-06 15:55:57 
  * @Last Modified by: qiao
- * @Last Modified time: 2018-10-08 15:09:29
+ * @Last Modified time: 2018-10-08 19:37:56
  * 天气页面组件
  */
 
@@ -350,5 +350,16 @@ export default class WeatherComp extends Vue {
         }
       }
     });
+  }
+
+  goDiary() {
+    try {
+      let url = `/pages/diary/main`;
+      wx.navigateTo({
+        url
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

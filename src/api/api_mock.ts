@@ -30,3 +30,18 @@ export const mockGetAir = (city: string) => {
     });
   });
 };
+
+export const mockJscode2session = (code: string) => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'http://127.0.0.1:3000/api/jscode2session',
+      data: {
+        code
+      },
+      success: (res) => {
+        resolve({ result: res.data });
+      },
+      fail: reject
+    });
+  });
+};

@@ -12,8 +12,15 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 export default class IconA extends Vue {
 
   @Prop({
-    default: ''
+    default: '',
+    type: String
   })
   type: string;
 
+  // 额外的class
+  @Prop({
+    default: '',
+    type: String
+  })
+  className: string;
 }

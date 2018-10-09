@@ -1,5 +1,5 @@
 <template>
-  <i class="icon" :class="'icon-' + type">
+  <i class="icon" :class="'icon-' + type + ' ' + className">
   </i>
 </template>
 <style lang="scss" scoped>

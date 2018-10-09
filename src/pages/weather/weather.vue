@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper weather-page" :style="{ background: 'url(' + backgroundImage + ') center -178rpx / 100% no-repeat ' +  backgroundColor }">
-    <div class="navigator">
+    <div class="navigator" @click="goDiary">
       <icon-a type="edit"></icon-a>
     </div>
     <div class="container" id="canvas-wrapper" :style="{paddingTop: paddingTop + 'px' }">
