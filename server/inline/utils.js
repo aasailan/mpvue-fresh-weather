@@ -52,10 +52,14 @@ const $ = {
     return crypto.createHash('md5').update(data).digest('base64')
   },
   getWeatherImage(code, isNight) {
-    return WEATHER_IMAGE_PERFIXER + '/' + path.join(isNight ? 'night' : 'day', `${code}.svg`)
+    // return WEATHER_IMAGE_PERFIXER + '/' + path.join(isNight ? 'night' : 'day', `${code}.svg`)
+    const tmp = isNight ? 'night' : 'day';
+    return `${WEATHER_IMAGE_PERFIXER}/${tmp}/${code}.svg`;
   },
   getBackgroundImage(weather, isNight) {
-    return BACKGROUND_PERFIXER + '/' + path.join(isNight ? 'night' : 'day', `${weather}.jpg`)
+    // return BACKGROUND_PERFIXER + '/' + path.join(isNight ? 'night' : 'day', `${weather}.jpg`)
+    const tmp = isNight ? 'night' : 'day';
+    return `${BACKGROUND_PERFIXER}/${tmp}/${weather}.jpg`;
   },
   timeFormat(pattern = 'YYYY-MM-DD', d) {
     if (!(d instanceof Date)) {

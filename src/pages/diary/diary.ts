@@ -10,6 +10,9 @@ import { Vue, Component } from 'vue-property-decorator';
 import IconA from '@/components/icon/icon.vue';
 import { dateFormat } from '@/util';
 import { jscode2session, getEmotionByOpenidAndDate, addEmotion } from '@/api/api';
+import store, { IDiaryData } from '@/store';
+import { Mutation, State } from 'vuex-class';
+import { SAVE_DIARY_DATA, SAVE_NICKNAME, SAVE_AVATAR } from '@/store/types';
 
 interface IDayStyle {
   month: string;
@@ -21,12 +24,17 @@ interface IDayStyle {
 @Component({
   components: {
     IconA
-  }
+  },
+  store
 })
 export default class DiaryComp extends Vue {
 
-  avatarUrl: string = '';
-  nickname: string = '';
+  @State(state => state.avatarUrl)
+  avatarUrl: string;
+
+  @State(state => state.nickname)
+  nickname: string;
+
   auth: number = -1;
   openid: string = '';
 
@@ -44,7 +52,16 @@ export default class DiaryComp extends Vue {
   };
   showPublish = false;
   lastMonth = '';
+
+  @Mutation(SAVE_DIARY_DATA)
+  saveDiaryData;
   
+  @Mutation(SAVE_NICKNAME)
+  saveNickName;
+
+  @Mutation(SAVE_AVATAR)
+  saveAvatarUrl;
+
   get colorEmotion() {
     return this.colors[this.todayEmotion];
   } 
@@ -62,14 +79,14 @@ export default class DiaryComp extends Vue {
 
   // 获取用户信息
   async getUserInfo() {
-    // TODO: 检查全局数据
-    this._getUserInfo().then(res => {
-      const userInfo = res.userInfo;
-      this.nickname = userInfo.nickName;
-      this.avatarUrl = userInfo.avatarUrl;
-      // TODO: 保存到全局变量
-    });
-
+    if (!this.nickname || !this.avatarUrl) {
+      this._getUserInfo().then(res => {
+        const userInfo = res.userInfo;
+        this.saveNickName(userInfo.nickName);
+        this.saveAvatarUrl(userInfo.avatarUrl);
+      });
+    }
+    
     let openid = wx.getStorageSync('openid');
     console.log('openid:' + openid);
     if (openid) {
@@ -91,15 +108,12 @@ export default class DiaryComp extends Vue {
     const now = new Date();
     const year = now.getFullYear();
     const month = now.getMonth() + 1;
-    // TODO: 全局变量
-    // const data = globalData[`diary-${year}-${month}`] || []
-    const data = [];
+    const data: IDiaryData[] = this.$store.state.diary[`diary-${year}-${month}`] || [];
     if (data && data.length) {
       // 当前月份，存在缓存
       console.log('setDate');
       this._setDayData(data, year, month);
     } else {
-      // TODO: 
       this.setCalendarColor();
     }
   }
@@ -110,8 +124,10 @@ export default class DiaryComp extends Vue {
     try {
       const res = await getEmotionByOpenidAndDate(this.openid, year, month);
       const data = res.data || [];
-      // TODO: 全局状态
-      // globalData[`diary-${year}-${month}`] = data
+      this.saveDiaryData({
+        key: `diary-${year}-${month}`,
+        data
+      });
       this._setDayData(data, year, month);
     } catch (e) {
       wx.showToast({
@@ -122,7 +138,7 @@ export default class DiaryComp extends Vue {
     } 
   }
 
-  _setDayData(data, year, month) {
+  _setDayData(data: IDiaryData[], year, month) {
     const colors = this.colors;
     
     const styles: any[] = [];
@@ -230,9 +246,8 @@ export default class DiaryComp extends Vue {
         const now = new Date();
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
-        // TODO: 全局状态
-        // const data = globalData[`diary-${year}-${month}`] || []
-        const data: any[] = [];
+        const data: IDiaryData[] = this.$store.state.diary[`diary-${year}-${month}`] || [];
+        // const data: any[] = [];
 
         if (data.length) {
           data.push({

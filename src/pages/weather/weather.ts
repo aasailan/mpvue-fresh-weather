@@ -2,19 +2,19 @@
  * @Author: qiao 
  * @Date: 2018-10-06 15:55:57 
  * @Last Modified by: qiao
- * @Last Modified time: 2018-10-08 19:37:56
+ * @Last Modified time: 2018-10-09 22:31:07
  * 天气页面组件
  */
 
-// import Vue from 'vue';
-// import Component from 'vue-class-component';
 import { Vue, Component } from 'vue-property-decorator';
-import { getWeather, getAir, getMood, geocoder } from '@/api/api';
-// import { Action } from 'vuex-class';
+import { getWeather, getAir, getMood, geocoder, getEmotionByOpenidAndDate } from '@/api/api';
+import { Mutation } from 'vuex-class';
 import * as utils from './wxs';
 
 // icon的话
 import IconA from '@/components/icon/icon.vue';
+import { SAVE_DIARY_DATA } from '@/store/types';
+import store, { IDiaryData } from '@/store';
 // import CompB from '@/components/compb.vue';
 
 interface IWeeklyData {
@@ -39,12 +39,14 @@ interface ILifeStyle {
   detail: string;
 }
 
+let isUpdate = false; // 是否已经运行过render函数
+let prefetchTimer;
+
 @Component({
   components: {
     IconA
-    // CompB
-    // IconA: Icon
-  }
+  },
+  store
 })
 export default class WeatherComp extends Vue {
   // 页面数据
@@ -87,6 +89,9 @@ export default class WeatherComp extends Vue {
   tips = '';
   oneWord = '';
   lifeStyle: ILifeStyle[] = [];
+
+  @Mutation(SAVE_DIARY_DATA)
+  saveDiaryData;
 
   get humidity() {
     return utils.humidity(this.current.humidity);
@@ -142,6 +147,49 @@ export default class WeatherComp extends Vue {
     }
   }
 
+  // 预获取心情数据
+  onShow() {
+    this._setPrefetchTimer();
+  }
+
+    // 清楚预获取数据函数
+  onHide() {
+    clearTimeout(prefetchTimer);
+  }
+
+  _setPrefetchTimer(delay = 10e3) {
+    // 10s 后预取
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    // const data = app.globalData[`diary-${year}-${month}`] || [];
+    const data: IDiaryData[] = this.$store.state.diary[`diary-${year}-${month}`] || [];
+    if (!data.length) { // isUpdate
+      prefetchTimer = setTimeout(() => {
+        console.log('start prefetchTimer');
+        this.prefetch();
+      }, delay);
+    }
+  }
+
+  // 预先获取心情数据
+  async prefetch() {
+    const openid = wx.getStorageSync('openid');
+    if (openid) {
+      // 存在则预取当前时间的心情
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+      const res = await getEmotionByOpenidAndDate(openid, year, month);
+      const data = res.data || [];
+      this.saveDiaryData({
+        key: `diary-${year}-${month}`,
+        data
+      });
+      console.log(this.$store.state);
+    }
+  }
+
   // 下拉刷新
   async onPullDownRefresh() {
     await this.getWeatherData();
@@ -153,7 +201,7 @@ export default class WeatherComp extends Vue {
     wx.getStorage({
       key: 'defaultData',
       success: ({ data }) => {
-        if (data) {
+        if (data && !isUpdate) {
           const { current, backgroundColor, backgroundImage, today, tomorrow, address, tips, hourlyData } = data;
           this.current = current;
           this.backgroundColor = backgroundColor;
@@ -273,6 +321,8 @@ export default class WeatherComp extends Vue {
 
   // 渲染天气数据
   renderFunc(data) {
+    isUpdate = true;
+
     const { hourly, daily, current, lifeStyle, oneWord = '', effect } = data;
     const { backgroundColor, backgroundImage } = current;
     const _today = daily[0];
