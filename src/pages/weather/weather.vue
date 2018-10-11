@@ -122,6 +122,10 @@
         </div>
       </div>
     </div>
+
+    <div class="source">
+      <text>{{oneWord === '' ? '· 如果没有阳光，就在心里点一只蜡烛 ·' : oneWord}}</text>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>

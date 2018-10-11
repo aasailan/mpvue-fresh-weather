@@ -7,13 +7,15 @@
   "scripts": {
     "dev": "cross-env node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "build": "node build/build.js && npm run build:cloud",
     "lint": "eslint --ext .js,.vue src",
     "cloud": "gulp cloud:dev",
+    "build:cloud": "gulp cloud --type prod",
     "server": "nodemon ./server/index.js"
   },
   "dependencies": {
     "@types/express": "^4.16.0",
+    "@types/weixin-app": "^2.2.9",
     "debug": "^3.1.0",
     "mpvue": "^1.0.13",
     "vue": "^2.5.16",
@@ -22,7 +24,7 @@
     "vuex-class": "^0.3.1"
   },
   "devDependencies": {
-    "@types/node": "^9.4.7",
+    "@types/node": "^9.6.35",
     "autoprefixer": "^7.1.2",
     "awesome-typescript-loader": "^4.0.1",
     "babel-core": "^6.22.1",
@@ -76,11 +78,11 @@
     "sass-loader": "^7.1.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
-    "tencent-wx-app": "^1.1.201712221707",
     "tslint": "^5.11.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-loader": "^3.6.0",
     "typescript": "^2.7.2",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^0.5.8",
     "vue-style-loader": "^3.0.1",
     "webpack": "^2.6.1",

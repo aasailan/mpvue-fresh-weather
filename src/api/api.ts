@@ -12,11 +12,11 @@ import { mockGetWeather, mockGetAir, mockJscode2session } from './api_mock';
 const QQ_MAP_KEY = 'ZWPBZ-EU2NO-UROW7-SHH54-3TBXO-XEFTN';
 
 // 云函数环境
-wx['cloud'].init({
+wx.cloud.init({
   env: 'tianqi-789232'
 });
 
-const db = wx['cloud'].database();
+const db = wx.cloud.database();
 
 let _getWeather;
 let _getAir;
@@ -27,14 +27,30 @@ if (process.env.NODE_ENV === 'development') {
   _getAir = mockGetAir;
   _jscode2session = mockJscode2session;
 } else {
-  _getWeather = (lat, lon) => {
-    // 
+  _getWeather = (lat: number, lon: number): Promise<wx.callFunctionResult> => {
+    return wx.cloud.callFunction({
+      name: 'he-weather',
+      data: {
+        lat,
+        lon
+      }
+    });
   };
-  _getAir = () => {
-    //
+  _getAir = (city: string): Promise<wx.callFunctionResult> => {
+    return wx.cloud.callFunction({
+      name: 'he-air',
+      data: {
+        city
+      }
+    });
   };
-  _jscode2session = () => {
-    //
+  _jscode2session = (code: string): Promise<wx.callFunctionResult> => {
+    return wx.cloud.callFunction({
+      name: 'jscode2session',
+      data: {
+        code
+      }
+    });
   };
 }
 

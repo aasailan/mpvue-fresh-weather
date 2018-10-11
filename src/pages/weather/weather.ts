@@ -201,7 +201,7 @@ export default class WeatherComp extends Vue {
     wx.getStorage({
       key: 'defaultData',
       success: ({ data }) => {
-        if (data && !isUpdate) {
+        if (data && typeof data !== 'string' && !(data instanceof ArrayBuffer) && !isUpdate) {
           const { current, backgroundColor, backgroundImage, today, tomorrow, address, tips, hourlyData } = data;
           this.current = current;
           this.backgroundColor = backgroundColor;
@@ -254,7 +254,7 @@ export default class WeatherComp extends Vue {
       mask: true
     });
     try {
-      const res = await geocoder(this.lat, this.lon);
+      const res = await geocoder(this.lat, this.lon) as any;
       
       let result = (res.data || {}).result;
       let { address, formatted_addresses, address_component } = result;
@@ -299,8 +299,10 @@ export default class WeatherComp extends Vue {
         this.renderFunc(weatherRes.result);
       }
       if (airRes && airRes.result) this.air = airRes.result;
-      if (moodRes) {
-        let result = (moodRes.data || {}).data;
+      
+      const moodResData = moodRes.data;
+      if (moodResData && typeof moodResData !== 'string' && !(moodResData instanceof ArrayBuffer)) {
+        let result = (moodResData || {}).data;
         if (result && result.tips) {
           let tips = result.tips.observe || {};
           let index = Math.floor(Math.random() * Object.keys(tips).length);

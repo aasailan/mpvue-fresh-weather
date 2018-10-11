@@ -22,9 +22,6 @@
         "src/*"
       ]
     },
-    "types": [
-      "tencent-wx-app"
-    ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,

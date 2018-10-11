@@ -1,17 +1,18 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true
 	},
-	"miniprogramRoot": "./dist/",
+  "cloudfunctionRoot": "dist/cloud-functions/",
+	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "touristappid",
-	"projectname": "wxmp-demo",
-	"libVersion": "2.2.1",
+	"appid": "wx7dffdfe1be046be9",
+	"projectname": "mpvue-fresh-weather",
+	"libVersion": "2.3.0",
 	"condition": {
 		"search": {
 			"current": -1,
