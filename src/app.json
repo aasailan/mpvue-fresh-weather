@@ -1,20 +1,7 @@
 {
   "pages": [
     "pages/weather/main",
-    "pages/diary/main",
-    "pages/index/main",
-    "pages/logs/main",
-    "pages/counter/main",
-    "pages/page2/main",
-    "pages/testExtend/main"
-  ],
-  "subPackages": [
-    {
-      "root": "packageA",
-      "pages": [
-        "pages/index/main"
-      ]
-    }
+    "pages/diary/main"
   ],
   "window": {
     "navigationStyle": "custom"

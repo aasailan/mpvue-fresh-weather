@@ -10,7 +10,6 @@
   "cloudfunctionRoot": "dist/cloud-functions/",
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "wx7dffdfe1be046be9",
 	"projectname": "mpvue-fresh-weather",
 	"libVersion": "2.3.0",
 	"condition": {

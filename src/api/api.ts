@@ -1,19 +1,19 @@
 /*
  * @Author: qiao 
  * @Date: 2018-10-06 20:07:42 
- * @Last Modified by:   qiao 
- * @Last Modified time: 2018-10-06 20:07:42 
+ * @Last Modified by: qiao
+ * @Last Modified time: 2018-10-13 14:51:40
  * api
  */
 
 import { mockGetWeather, mockGetAir, mockJscode2session } from './api_mock';
 
-// 腾讯地图的开发者账号
-const QQ_MAP_KEY = 'ZWPBZ-EU2NO-UROW7-SHH54-3TBXO-XEFTN';
+// 填写腾讯地图的开发者账号
+const QQ_MAP_KEY = 'ZWPBZ-EU2NO-UROW7-XXXXX-XXXXX-XXXXX';
 
-// 云函数环境
+// 填写云函数环境
 wx.cloud.init({
-  env: 'tianqi-789232'
+  env: 'tianqi-XXXXX'
 });
 
 const db = wx.cloud.database();

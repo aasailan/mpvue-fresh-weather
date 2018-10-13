@@ -13,11 +13,11 @@ const BACKGROUND_PERFIXER = `${STATIC_SERVER_URL}/bg`
 const WEATHER_IMAGE_PERFIXER = `${STATIC_SERVER_URL}/icon`
 
 // 和风天气
-const KEY = '5596623728f547f1926661ab6bfc32b4'
-const USER_ID = 'HE1809132052531739'
-
-const WECHAT_APPID = 'wx7dffdfe1be046be9'
-const WECHAT_APP_SECRET = 'd77b5f8915a08f0604b79e05885a9eef'
+const KEY = 'xxxxxxxxxxxx'
+const USER_ID = 'xxxxxxxxxxxxxx'
+// 微信appid
+const WECHAT_APPID = 'xxxxxxxxxxxxxxxxxxx'
+const WECHAT_APP_SECRET = 'xxxxxxxxxxxxxxxxxx'
 const $ = {
   getWechatAppConfig: () => {
     return {
