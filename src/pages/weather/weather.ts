@@ -2,7 +2,7 @@
  * @Author: qiao 
  * @Date: 2018-10-06 15:55:57 
  * @Last Modified by: qiao
- * @Last Modified time: 2018-10-09 22:31:07
+ * @Last Modified time: 2018-10-13 12:16:43
  * 天气页面组件
  */
 
@@ -15,7 +15,9 @@ import * as utils from './wxs';
 import IconA from '@/components/icon/icon.vue';
 import { SAVE_DIARY_DATA } from '@/store/types';
 import store, { IDiaryData } from '@/store';
-// import CompB from '@/components/compb.vue';
+import { fixChart, getChartConfig, drawEffect } from '@/util';
+import Chart from '@/lib/chartjs/chart.js';
+import { Particle } from '@/util/effect';
 
 interface IWeeklyData {
   day: string;
@@ -40,7 +42,10 @@ interface ILifeStyle {
 }
 
 let isUpdate = false; // 是否已经运行过render函数
+let effectInstance: Particle; // 粒子特效实例
 let prefetchTimer;
+const CHART_CANVAS_HEIGHT = 272 / 2;
+const EFFECT_CANVAS_HEIGHT = 768 / 2;
 
 @Component({
   components: {
@@ -354,9 +359,64 @@ export default class WeatherComp extends Vue {
     this.oneWord = oneWord;
     this.lifeStyle = lifeStyle;
 
+    // 暂停可能存在的粒子特效
+    this.stopEffect();
+
+    if (effect && effect.name) {
+      // 天气效果
+      effectInstance = drawEffect('effect', effect.name, this.width, EFFECT_CANVAS_HEIGHT * this.scale, effect.amount);
+    }
+
     // TODO: 特效未加
+    this.drawChart();
+    // 启动预取定时器
+    this._setPrefetchTimer(1e3);
 
     this.dataCache();
+  }
+
+  stopEffect() {
+    if (effectInstance && effectInstance.clear) {
+      effectInstance.clear();
+    }
+  }
+
+  // 一周温度走势图画图函数
+  drawChart() {
+    // const { width, scale, weeklyData } = this.data
+    const scale = this.scale;
+    const height = CHART_CANVAS_HEIGHT * scale;
+    const width = this.width;
+    const weeklyData = this.weeklyData;
+
+    const ctx = wx.createCanvasContext('chart');
+
+    // 对ctx添加一些额外的方法属性
+    fixChart(ctx, width, height);
+
+    // 添加温度
+    Chart['pluginService'].register({
+      afterDatasetsDraw(e, t) {
+        ctx.setTextAlign('center');
+        ctx.setTextBaseline('middle');
+        ctx.setFontSize(16);
+
+        e.data.datasets.forEach((t, a) => {
+          let r = e.getDatasetMeta(a);
+          r.hidden ||
+            r.data.forEach((e, r) => {
+              // 昨天数据发灰
+              ctx.setFillStyle(r === 0 ? '#e0e0e0' : '#ffffff');
+
+              let i = t.data[r].toString() + '\xb0';
+              let o = e.tooltipPosition();
+              0 === a ? ctx.fillText(i, o.x + 2, o.y - 8 - 10) : 1 === a && ctx.fillText(i, o.x + 2, o.y + 8 + 10);
+            });
+        });
+      }
+    });
+
+    return new Chart(ctx, getChartConfig(weeklyData));
   }
 
   dataCache() {

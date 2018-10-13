@@ -275,6 +275,12 @@ const $ = {
       }
     }
 
+    // 开发测试
+    // return {
+    //   name: 'rain',
+    //   amount: 100
+    // }
+
     return result
   },
   /**

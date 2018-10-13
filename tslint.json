@@ -16,6 +16,7 @@
 			"check-preblock"
 		],
 		"no-trailing-whitespace": false,
-		"no-unused-expression": false
+    "no-unused-expression": false,
+    "no-empty": false
 	}
 }
