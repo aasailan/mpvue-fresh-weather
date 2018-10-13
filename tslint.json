@@ -1,0 +1,22 @@
+{
+	"extends": "tslint-config-standard",
+	"rules": {
+		"ter-indent": ["error", 2],
+		"semicolon": [true, "always"],
+		"space-before-function-paren": ["error", "never"],
+		"no-angle-bracket-type-assertion": false,
+		"variable-name": false,
+		"whitespace": [
+			true,
+			"check-branch",
+			"check-decl",
+			"check-operator",
+			"check-module",
+			"check-type",
+			"check-preblock"
+		],
+		"no-trailing-whitespace": false,
+    "no-unused-expression": false,
+    "no-empty": false
+	}
+}
